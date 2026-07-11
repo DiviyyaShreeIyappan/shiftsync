@@ -1,0 +1,6 @@
+package com.example.distributed_system.entities.enums;
+
+public enum ConflictResolvedBy {
+    AGENT,
+    MANAGER
+}
