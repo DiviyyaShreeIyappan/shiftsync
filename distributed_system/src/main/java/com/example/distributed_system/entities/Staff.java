@@ -20,7 +20,7 @@ public class Staff{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID staffId;
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
