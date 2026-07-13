@@ -17,4 +17,5 @@ public interface ShiftHistoryRepository extends JpaRepository<ShiftHistory, UUID
     List<ShiftHistory> findByWeekStartDateBetween(LocalDate start,LocalDate end);
     List<ShiftHistory> findByStaffIdAndWeekStartDateAfter(UUID staffId, LocalDate weekStartDate);
     boolean existsByStaffIdAndWeekStartDate(UUID staffId, LocalDate weekStartDate);
+    ShiftHistory findByStaffIdAndWeekStartDate(UUID staffId, LocalDate weekStartDate);
 }
