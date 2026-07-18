@@ -40,6 +40,9 @@ public class Staff{
 
     private Integer contractedHours;
 
+    @Column(nullable = false)
+    private Boolean availableForExtraHours = false;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
 

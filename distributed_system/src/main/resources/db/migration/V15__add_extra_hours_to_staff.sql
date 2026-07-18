@@ -1,0 +1,2 @@
+ALTER TABLE staff
+ADD COLUMN available_for_extra_hours BOOLEAN NOT NULL DEFAULT FALSE;

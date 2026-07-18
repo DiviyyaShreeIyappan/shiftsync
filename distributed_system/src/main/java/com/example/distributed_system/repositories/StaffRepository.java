@@ -16,4 +16,5 @@ public interface StaffRepository extends JpaRepository<Staff,UUID>{
     List<Staff> findByContractType(ContractType contractType);
     List<Staff> findByRole(StaffRole role);
     boolean existsByEmail(String email);
+    List<Staff> findByAvailableForExtraHoursTrue();
 }
