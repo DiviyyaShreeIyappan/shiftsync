@@ -160,7 +160,7 @@ public class SubstitutionService {
 
         substitutionRequestRepository.save(request);
     }
-    
+
     SubstitutionRequest getSubstitutionStatus(UUID assignmentId){
         return substitutionRequestRepository
                 .findByAssignmentIdOrderByRankAsc(assignmentId)
