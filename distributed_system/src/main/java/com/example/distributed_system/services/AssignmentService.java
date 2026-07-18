@@ -28,6 +28,17 @@ public class AssignmentService {
     private final ShiftHistoryRepository shiftHistoryRepository;
     private final UnavailabilityService unavailabilityService;
 
+    @Transactional(readOnly = true)
+    public List<Assignment> getAllAssignments() {
+        return assignmentRepository.findAll();
+    }
+
+    public void deleteAssignment(UUID id) {
+        if (!assignmentRepository.existsById(id)) {
+            throw new RuntimeException("Assignment not found: " + id);
+        }
+        assignmentRepository.deleteById(id);
+    }
     public Assignment createAssignment(String eventId, UUID staffId, Department department, LocalDate date, LocalTime startTime, LocalTime endTime, UUID assignedById) {
         if (assignmentRepository.existsByEventId(eventId)) {
             return null;
@@ -65,7 +76,21 @@ public class AssignmentService {
 
         return saved;
     }
+    @Transactional(readOnly = true)
+    public List<Assignment> getAssignmentsByDate(LocalDate date) {
+        return assignmentRepository.findByDate(date);
+    }
 
+    @Transactional(readOnly = true)
+    public List<Assignment> getAssignmentsByStaff(UUID staffId) {
+        return assignmentRepository.findByStaffId(staffId);
+    }
+
+    @Transactional(readOnly = true)
+    public Assignment getAssignmentById(UUID id) {
+        return assignmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Assignment not found: " + id));
+    }
     private void updateShiftHistory(UUID staffId, LocalDate date) {
         LocalDate weekStart = date.with(java.time.DayOfWeek.MONDAY);
 
