@@ -28,7 +28,7 @@ public class SubstitutionService {
     private final UnavailabilityService unavailabilityService;
     private final NotificationService notificationService;
 
-    void initiateSubstitution(Assignment shift){
+    public void initiateSubstitution(Assignment shift){
         Department department=shift.getDepartment();
         List<StaffSkill> skilledStaff=staffSkillRepository.findByDepartment(department);
         List<Staff> candidates=skilledStaff.stream()
@@ -78,7 +78,7 @@ public class SubstitutionService {
         notificationService.sendSubstitutionRequest(topCandidate, shift);
     }
 
-    void handleResponse(UUID requestId, SubstitutionResponse response){
+    public void handleResponse(UUID requestId, SubstitutionResponse response){
 //        find the request
         SubstitutionRequest request = substitutionRequestRepository
                 .findById(requestId)
@@ -128,7 +128,7 @@ public class SubstitutionService {
     }
 
 
-    void handleTimeout(UUID requestId){
+   public void handleTimeout(UUID requestId){
         SubstitutionRequest request = substitutionRequestRepository
                 .findById(requestId)
                 .orElseThrow(() -> new RuntimeException("Request not found: " + requestId));
@@ -161,7 +161,7 @@ public class SubstitutionService {
         substitutionRequestRepository.save(request);
     }
 
-    SubstitutionRequest getSubstitutionStatus(UUID assignmentId){
+   public SubstitutionRequest getSubstitutionStatus(UUID assignmentId){
         return substitutionRequestRepository
                 .findByAssignmentIdOrderByRankAsc(assignmentId)
                 .stream()
