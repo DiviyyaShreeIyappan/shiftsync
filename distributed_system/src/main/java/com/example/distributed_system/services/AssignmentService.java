@@ -6,6 +6,8 @@ import com.example.distributed_system.entities.Staff;
 import com.example.distributed_system.entities.enums.AssignmentStatus;
 import com.example.distributed_system.entities.enums.Department;
 import com.example.distributed_system.entities.enums.UnavailabilityStatus;
+import com.example.distributed_system.kafka.events.ShiftAssignedEvent;
+import com.example.distributed_system.kafka.producers.ShiftSyncEventProducer;
 import com.example.distributed_system.repositories.AssignmentRepository;
 import com.example.distributed_system.repositories.ShiftHistoryRepository;
 import com.example.distributed_system.repositories.StaffRepository;
@@ -27,6 +29,7 @@ public class AssignmentService {
     private final StaffRepository staffRepository;
     private final ShiftHistoryRepository shiftHistoryRepository;
     private final UnavailabilityService unavailabilityService;
+    private final ShiftSyncEventProducer eventProducer;
 
     @Transactional(readOnly = true)
     public List<Assignment> getAllAssignments() {
@@ -70,6 +73,19 @@ public class AssignmentService {
                 .eventId(eventId)
                 .build();
         Assignment saved = assignmentRepository.save(assignment);
+        // publish Kafka event
+        ShiftAssignedEvent event = ShiftAssignedEvent.builder()
+                .eventId(eventId)
+                .assignmentId(saved.getId())
+                .staffId(staffId)
+                .assignedById(assignedById)
+                .department(department.name())
+                .date(date)
+                .startTime(startTime)
+                .endTime(endTime)
+                .build();
+
+        eventProducer.publishShiftAssigned(event);
 
 // Step 6 — update shift history
         updateShiftHistory(staffId, date);

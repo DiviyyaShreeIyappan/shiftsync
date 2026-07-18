@@ -10,6 +10,9 @@ import com.example.distributed_system.entities.Conflict;
 import com.example.distributed_system.entities.Staff;
 import com.example.distributed_system.entities.enums.AssignmentStatus;
 import com.example.distributed_system.entities.enums.ConflictResolvedBy;
+import com.example.distributed_system.kafka.events.ConflictDetectedEvent;
+import com.example.distributed_system.kafka.events.ConflictResolvedEvent;
+import com.example.distributed_system.kafka.producers.ShiftSyncEventProducer;
 import com.example.distributed_system.repositories.AssignmentRepository;
 import com.example.distributed_system.repositories.ConflictRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ import java.util.UUID;
 public class ConflictService {
     private final ConflictRepository conflictRepository;
     private final AssignmentRepository assignmentRepository;
+    private final ShiftSyncEventProducer eventProducer;
     @Transactional(readOnly = true)
     public List<Conflict> getUnresolvedConflicts(){
         return conflictRepository.findByResolvedAtIsNull();
@@ -40,7 +44,18 @@ public class ConflictService {
                 .assignmentId1(assignment1)
                 .assignmentId2(assignment2)
                 .build();
-        return conflictRepository.save(conflict);
+        Conflict saved = conflictRepository.save(conflict);
+        ConflictDetectedEvent event = ConflictDetectedEvent.builder()
+                .eventId(UUID.randomUUID().toString())
+                .conflictId(saved.getId())
+                .staffId(staff.getId())
+                .assignmentId1(assignment1.getId())
+                .assignmentId2(assignment2.getId())
+                .detectedAt(LocalDateTime.now())
+                .build();
+
+        eventProducer.publishConflictDetected(event);
+        return saved;
     }
     public Conflict resolveConflict(UUID conflictId, Assignment winningAssignment, ConflictResolvedBy resolvedBy, String resolutionReason){
         Conflict conflict=conflictRepository.findById(conflictId).orElseThrow(()->new RuntimeException("Not found: "+conflictId));
@@ -58,7 +73,19 @@ public class ConflictService {
             conflict.setResolvedBy(resolvedBy);
             conflict.setResolutionReason(resolutionReason);
         }
-        return conflictRepository.save(conflict);
+        Conflict resolved = conflictRepository.save(conflict);
+
+        // publish Kafka event
+        ConflictResolvedEvent event = ConflictResolvedEvent.builder()
+                .eventId(UUID.randomUUID().toString())
+                .conflictId(resolved.getId())
+                .winningAssignmentId(winningAssignment.getId())
+                .resolvedBy(resolvedBy.name())
+                .resolutionReason(resolutionReason)
+                .build();
+
+        eventProducer.publishConflictResolved(event);
+        return resolved;
     }
 
 }

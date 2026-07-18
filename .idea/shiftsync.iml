@@ -17,5 +17,8 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-web:7.0.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:7.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:7.0.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.kafka:spring-kafka:4.0.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:7.0.7" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.kafka:kafka-clients:4.1.2" level="project" />
   </component>
 </module>
