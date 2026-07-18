@@ -5,11 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(
-        name="skills",
+        name="staff_skills",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"staff_id","department"})})
 @Getter
 @Setter
@@ -29,10 +30,10 @@ public class StaffSkill{
     private Department department;
 
     @Column(updatable = false)
-    private LocalDate certifiedAt;
+    private LocalDateTime certifiedAt;
 
     @PrePersist
     protected void onCreate() {
-        certifiedAt = LocalDate.now();
+        certifiedAt = LocalDateTime.now();
     }
 }

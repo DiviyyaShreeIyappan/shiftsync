@@ -41,7 +41,7 @@ public class Conflict {
     private LocalDateTime resolvedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "winning_assignment_id")
+    @JoinColumn(name = "winning_assignment")
     private Assignment winningAssignment;
 
     @Enumerated(EnumType.STRING)
