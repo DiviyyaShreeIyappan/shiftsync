@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name= "assignments",
@@ -68,22 +69,27 @@ public class Assignment {
     @Column(unique = true, updatable = false)
     private String eventId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "shift")
     private List<Absence> absences=new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "assignment")
     private List<ScheduleAssignment> scheduleAssignments=new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "assignmentId1")
     private List<Conflict> conflictsAsFirst=new ArrayList<>();
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "assignmentId2")
     private List<Conflict> conflictsAsSecond=new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "winningAssignment")
     private List<Conflict> winningAssignments=new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "assignment")
     private List<SubstitutionRequest> substitutionRequests=new ArrayList<>();
 }

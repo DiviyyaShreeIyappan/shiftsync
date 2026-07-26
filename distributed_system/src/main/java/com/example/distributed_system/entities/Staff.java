@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="staff")
@@ -51,27 +52,35 @@ public class Staff{
         createdAt = LocalDateTime.now();
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<StaffSkill> skills= new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<UnavailabilityFlag> unavailability= new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<Absence> absences=new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<ShiftHistory> shiftHistories=new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<LeaveRequest> leaveRequests=new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy="staff")
     private List<Conflict> conflicts=new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "candidateStaff")
     private List<SubstitutionRequest> substitutionRequests=new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<SubstitutionHistory> substitutionHistories=new ArrayList<>();
 }

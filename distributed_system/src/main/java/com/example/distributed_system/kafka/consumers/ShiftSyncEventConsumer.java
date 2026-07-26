@@ -4,103 +4,86 @@ import com.example.distributed_system.kafka.events.*;
 import com.example.distributed_system.services.NotificationService;
 import com.example.distributed_system.services.SubstitutionService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
+
 public class ShiftSyncEventConsumer {
 
     private final NotificationService notificationService;
     private final SubstitutionService substitutionService;
 
-    @KafkaListener(topics="shift_assigned",groupId = "shiftsync-group")
-    public void handleShiftAssigned(ShiftAssignedEvent event){
-        log.info("Shift assigned: staffId={} department={} date={}",
-                event.getStaffId(),event.getDepartment(),event.getDate());
-
+    @KafkaListener(topics = "shift_assigned", groupId = "shiftsync-group")
+    public void handleShiftAssigned(String message) {
+        System.out.println("Shift assigned: " + message);
     }
 
-    @KafkaListener(topics="conflict_detected",groupId = "shiftsync-group")
-    public void handleConflictDetected(ConflictDetectedEvent event){
-        log.info("Conflict detected: conflictId={} staffId={}",
-                event.getConflictId(),event.getStaffId());
+    @KafkaListener(topics = "conflict_detected", groupId = "shiftsync-group")
+    public void handleConflictDetected(String message) {
+        System.out.println("Conflict detected: " + message);
     }
 
     @KafkaListener(topics = "conflict_resolved", groupId = "shiftsync-group")
-    public void handleConflictResolved(ConflictResolvedEvent event) {
-        log.info("Conflict resolved: conflictId={} resolvedBy={}",
-                event.getConflictId(), event.getResolvedBy());
+    public void handleConflictResolved(String message) {
+        System.out.println("Conflict resolved: " + message);
     }
 
     @KafkaListener(topics = "staff_absent", groupId = "shiftsync-group")
-    public void handleStaffAbsent(StaffAbsentEvent event) {
-        log.info("Staff absent: staffId={} shiftId={}",
-                event.getStaffId(), event.getShiftId());
+    public void handleStaffAbsent(String message) {
+        System.out.println("Staff absent: " + message);
     }
 
     @KafkaListener(topics = "substitution_requested", groupId = "shiftsync-group")
-    public void handleSubstitutionRequested(SubstitutionRequestedEvent event) {
-        log.info("Substitution requested: candidateStaffId={} rank={}",
-                event.getCandidateStaffId(), event.getRank());
+    public void handleSubstitutionRequested(String message) {
+        System.out.println("Substitution requested: " + message);
     }
 
     @KafkaListener(topics = "substitution_confirmed", groupId = "shiftsync-group")
-    public void handleSubstitutionConfirmed(SubstitutionConfirmedEvent event) {
-        log.info("Substitution confirmed: assignmentId={} confirmedStaffId={}",
-                event.getAssignmentId(), event.getConfirmedStaffId());
+    public void handleSubstitutionConfirmed(String message) {
+        System.out.println("Substitution confirmed: " + message);
     }
 
     @KafkaListener(topics = "substitution_declined", groupId = "shiftsync-group")
-    public void handleSubstitutionDeclined(SubstitutionDeclinedEvent event) {
-        log.info("Substitution declined: assignmentId={} declinedStaffId={}",
-                event.getAssignmentId(), event.getDeclinedStaffId());
+    public void handleSubstitutionDeclined(String message) {
+        System.out.println("Substitution declined: " + message);
     }
 
     @KafkaListener(topics = "substitution_timeout", groupId = "shiftsync-group")
-    public void handleSubstitutionTimeout(SubstitutionTimeoutEvent event) {
-        log.info("Substitution timeout: requestId={}", event.getRequestId());
+    public void handleSubstitutionTimeout(String message) {
+        System.out.println("Substitution timeout: " + message);
     }
 
     @KafkaListener(topics = "substitution_failed", groupId = "shiftsync-group")
-    public void handleSubstitutionFailed(SubstitutionFailedEvent event) {
-        log.info("Substitution failed: assignmentId={} department={}",
-                event.getAssignmentId(), event.getDepartment());
+    public void handleSubstitutionFailed(String message) {
+        System.out.println("Substitution failed: " + message);
     }
 
     @KafkaListener(topics = "schedule_generated", groupId = "shiftsync-group")
-    public void handleScheduleGenerated(ScheduleGeneratedEvent event) {
-        log.info("Schedule generated: scheduleId={} weekStart={}",
-                event.getScheduleId(), event.getWeekStartDate());
+    public void handleScheduleGenerated(String message) {
+        System.out.println("Schedule generated: " + message);
     }
 
     @KafkaListener(topics = "schedule_approved", groupId = "shiftsync-group")
-    public void handleScheduleApproved(ScheduleApprovedEvent event) {
-        log.info("Schedule approved: scheduleId={} approvedById={}",
-                event.getScheduleId(), event.getApprovedById());
+    public void handleScheduleApproved(String message) {
+        System.out.println("Schedule approved: " + message);
     }
 
     @KafkaListener(topics = "leave_requested", groupId = "shiftsync-group")
-    public void handleLeaveRequested(LeaveRequestedEvent event) {
-        log.info("Leave requested: staffId={} from={} to={}",
-                event.getStaffId(), event.getStartDate(), event.getEndDate());
+    public void handleLeaveRequested(String message) {
+        System.out.println("Leave requested: " + message);
     }
 
     @KafkaListener(topics = "leave_approved", groupId = "shiftsync-group")
-    public void handleLeaveApproved(LeaveApprovedEvent event) {
-        log.info("Leave approved: leaveRequestId={} staffId={}",
-                event.getLeaveRequestId(), event.getStaffId());
+    public void handleLeaveApproved(String message) {
+        System.out.println("Leave approved: " + message);
     }
 
     @KafkaListener(topics = "leave_declined", groupId = "shiftsync-group")
-    public void handleLeaveDeclined(LeaveDeclinedEvent event) {
-        log.info("Leave declined: leaveRequestId={} staffId={}",
-                event.getLeaveRequestId(), event.getStaffId());
+    public void handleLeaveDeclined(String message) {
+        System.out.println("Leave declined: " + message);
     }
-
-
-
 
 }
