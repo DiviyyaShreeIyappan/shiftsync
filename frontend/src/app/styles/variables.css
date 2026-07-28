@@ -1,0 +1,38 @@
+:root {
+  --bg-primary: #FFFEF7;
+  --bg-secondary: #F7F5EC;
+  --bg-card: #FFFFFF;
+  --text-primary: #1C1C1E;
+  --text-secondary: #6B6B6B;
+  --border: #EDE8D8;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+
+  --primary: #F5C518;
+  --primary-hover: #E0B000;
+  --primary-soft: #FFF3B0;
+  --amber: #F4A535;
+
+  --dept-deli: #E8604C;
+  --dept-production: #D4763B;
+  --dept-shopfloor: #7A9E3B;
+  --dept-subway: #9B6B9E;
+  --dept-salads: #F5C518;
+  --dept-multi: linear-gradient(135deg, #E8604C, #9B6B9E);
+
+  --success: #5E9E4A;
+  --warning: #F4A535;
+  --danger: #E8604C;
+  --pending: #F5C518;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #1A1710;
+  --bg-secondary: #201E14;
+  --bg-card: #242018;
+  --text-primary: #FFFEF7;
+  --text-secondary: #A89F7E;
+  --border: #332E1E;
+  --shadow: 0 2px 12px rgba(0,0,0,0.4);
+
+  --primary-soft: #332B00;
+}
