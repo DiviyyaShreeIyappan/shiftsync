@@ -3,7 +3,11 @@
  import {useState} from 'react';
  import styles from './Header.module.css';
 
- export default function Header(){
+ interface HeaderProps {
+  onMenuClick: () => void
+  isSidebarOpen: boolean
+}
+ export default function Header({onMenuClick,isSidebarOpen}:HeaderProps){
     const [isDark, setIsDark]=useState(false);
 
     const toggleTheme=()=>{
@@ -15,6 +19,14 @@
     }
     return (
         <header className={styles.header}>
+            {/* Hamburger — mobile only */}
+<button
+  className={styles.hamburger}
+  onClick={onMenuClick}
+  aria-label="Toggle menu"
+>
+  {isSidebarOpen ? '✕' : '☰'}
+</button>
             <div className={styles.logo}>
                 <span className={styles.logoText}>ShiftSync</span>
                 <span className={styles.badge}>Manager</span>

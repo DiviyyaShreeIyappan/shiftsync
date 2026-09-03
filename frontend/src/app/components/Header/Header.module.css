@@ -71,3 +71,23 @@
 .logout:hover {
   opacity: 0.85;
 }
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--text-primary);
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.hamburger:hover {
+  background: var(--primary-soft);
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+}

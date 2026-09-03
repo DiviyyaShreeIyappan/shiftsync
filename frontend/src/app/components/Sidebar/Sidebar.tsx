@@ -3,15 +3,20 @@
 
 
 import styles from './Sidebar.module.css';
-
+import LeaveRequests from '../ScheduleMaker/LeaveRequests';
  const sidebarItems=['Schedule','Leave Requests','Calender','Substitution','Payroll'];
      interface SidebarProps {
   activeSection: string
   onSectionChange: (section: string) => void
 }
-export default function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
+interface SidebarProps {
+  activeSection: string
+  onSectionChange: (section: string) => void
+  isOpen: boolean
+}
+export default function Sidebar({ activeSection, onSectionChange,isOpen }: SidebarProps) {
   return (
-    <aside className={styles.sidebar} role="navigation" aria-label="Main navigation">
+    <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`} role="navigation" aria-label="Main navigation">
       {sidebarItems.map((item) => (
         <button
           key={item}

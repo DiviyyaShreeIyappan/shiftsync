@@ -1,0 +1,124 @@
+.wrapper {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.sectionTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.5rem;
+}
+
+.card {
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--warning);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: var(--shadow);
+}
+
+.approvedCard {
+  border-left: 4px solid var(--success);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--warning);
+  background-color: #F4A53522;
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+.approvedBadge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--success);
+  background-color: #5E9E4A22;
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+.dates {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.reason {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.approvedBy {
+  font-size: 0.85rem;
+  color: var(--success);
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.approveBtn {
+  flex: 1;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--success);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.approveBtn:hover {
+  opacity: 0.85;
+}
+
+.declineBtn {
+  flex: 1;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--danger);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.declineBtn:hover {
+  opacity: 0.85;
+}

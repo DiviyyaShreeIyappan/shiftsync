@@ -2,21 +2,37 @@
 import { useState } from 'react';
 import Header from '../components/Header/Header';
 import Sidebar from '../components/Sidebar/Sidebar';
+import StepperTabs from '../components/StepperTabs/StepperTabs';
+import LeaveRequests from '../components/ScheduleMaker/LeaveRequests';
 import styles from './page.module.css'
 
 export default function ManagerDashboard() {
   const [activeSection, setActiveSection] = useState('Schedule');
+  const [isSideBarOpen, setIsSideBarOpen]=useState(false);
   return (
     <div className={styles.page}>
-      <Header />
+      <Header 
+        onMenuClick={() => setIsSideBarOpen(!isSideBarOpen)}
+        isSidebarOpen={isSideBarOpen}
+      />
      <div className={styles.body}>
+        {isSideBarOpen && (
+          <div
+            className={styles.overlay}
+            onClick={() => setIsSideBarOpen(false)}
+          />
+        )}
         <Sidebar
           activeSection={activeSection}
-          onSectionChange={setActiveSection}
+          onSectionChange={(section) => {
+            setActiveSection(section)
+            setIsSideBarOpen(false)
+          }}
+          isOpen={isSideBarOpen}
         />
         <main className={styles.main}>
-          {activeSection === 'Schedule' && <div>Schedule content here</div>}
-          {activeSection === 'Leave Requests' && <div>Leave Requests here</div>}
+          {activeSection === 'Schedule' && <div><StepperTabs /></div>}
+          {activeSection === 'Leave Requests' && <div><LeaveRequests /></div>}
           {activeSection === 'Calender' && <div>Calendar here</div>}
           {activeSection === 'Substitution' && <div>Substitution here</div>}
           {activeSection === 'Payroll' && <div>Payroll here</div>}
