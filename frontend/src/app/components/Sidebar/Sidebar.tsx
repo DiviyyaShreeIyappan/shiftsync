@@ -4,6 +4,7 @@
 
 import styles from './Sidebar.module.css';
 import LeaveRequests from '../ScheduleMaker/LeaveRequests';
+import Substitution from '../ScheduleMaker/Substitution';
  const sidebarItems=['Schedule','Leave Requests','Calender','Substitution','Payroll'];
      interface SidebarProps {
   activeSection: string
