@@ -2,6 +2,7 @@ package com.example.distributed_system.services;
 
 
 import com.example.distributed_system.entities.Staff;
+import com.example.distributed_system.entities.StaffSkill;
 import com.example.distributed_system.entities.enums.ContractType;
 import com.example.distributed_system.entities.enums.StaffRole;
 import com.example.distributed_system.repositories.StaffRepository;
@@ -10,8 +11,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -99,6 +99,17 @@ public class StaffService {
             throw new RuntimeException("Staff not found with id: " + id);
         }
         staffRepository.deleteById(id);
+    }
+    public Map<String, List<Staff>> getStaffGroupedByDepartment() {
+        List<StaffSkill> allSkills = staffSkillRepository.findAll();
+        Map<String, List<Staff>> grouped = new HashMap<>();
+
+        for (StaffSkill skill : allSkills) {
+            String dept = skill.getDepartment().name();
+            grouped.computeIfAbsent(dept, k -> new ArrayList<>())
+                    .add(skill.getStaff());
+        }
+        return grouped;
     }
 
 }

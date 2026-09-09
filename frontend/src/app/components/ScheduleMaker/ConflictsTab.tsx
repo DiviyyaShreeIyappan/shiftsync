@@ -1,43 +1,58 @@
+'use client'
+import {useState, useEffect} from 'react'
 import styles from './ConflictsTab.module.css';
 
-const mockConflicts=[
-    {
-        id:'1',
-        staffName:'John Smith',
-        department: 'DELI',
-        date: 'Mon 28 Jul',
-        time: '06:00 - 14:00',
-        manager1: 'Sarah (Main Manager)',
-        manager2: 'Mike (Subway Manager)',
-        }
-    ]
+interface Conflict {
+  id: string
+  staff: { name: string }
+  assignmentId1: { department: string, date: string, startTime: string, endTime: string, assignedBy: { name: string } }
+  assignmentId2: { assignedBy: { name: string } }
+  detectedAt: string
+  resolvedAt: string
+}
 
 export default function ConflictsTab(){
+    const [conflicts, setConflicts] = useState<Conflict[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+      fetch('http://localhost:8080/api/conflicts/unresolved')
+        .then(res => res.json())
+        .then(data => {
+          console.log('Conflict data:', data)  // add this
+          setConflicts(data)
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.error('Error:', err)  // add this
+          setLoading(false)
+        })
+    }, [])
     return(
         <div className={styles.wrapper}>
             <h3 className={styles.title}>Active Conflicts</h3>
-            {mockConflicts.map((conflict)=>(
+            {conflicts.map((conflict)=>(
                 <div key={conflict.id} className={styles.card}>
                     <div className={styles.cardHeader}>
-                        <span className={styles.staffName}>{conflict.staffName}</span>
-                        <span className={styles.department}>{conflict.department}</span>
+                        <span className={styles.staffName}>{conflict.staff.name}</span>
+                        <span className={styles.department}>{conflict.assignmentId1.department}</span>
                     </div>
                 <div className={styles.dateInfo}>
-                        <p className={styles.dateTime}>{conflict.date} · {conflict.time}</p>
-                        <p className={styles.manager}> {conflict.manager1}</p>
-                        <p className={styles.manager}> {conflict.manager2}</p>
+                        <p className={styles.dateTime}>{conflict.assignmentId1.date} · {conflict.assignmentId1.startTime} - {conflict.assignmentId1.endTime}</p>
+                        <p className={styles.manager}> {conflict.assignmentId1.assignedBy.name}</p>
+                        <p className={styles.manager}> {conflict.assignmentId2.assignedBy.name}</p>
                 </div>
                 <div className={styles.actions}>
                             <button className={styles.resolveBtn}>
-                              Keep {conflict.manager1.split(' ')[0]}'s
+                              Keep {conflict.assignmentId1.assignedBy.name.split(' ')[0]}'s
                             </button>
                             <button className={styles.resolveBtn}>
-                              Keep {conflict.manager2.split(' ')[0]}'s
+                              Keep {conflict.assignmentId2.assignedBy.name.split(' ')[0]}'s
                             </button>
                           </div>
                 </div>
                 ))}
-            {mockConflicts.length === 0 && (
+            {conflicts.length === 0 && (
                     <p className={styles.empty}>No active conflicts ✓</p>
                   )}
         </div>

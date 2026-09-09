@@ -6,6 +6,7 @@ import com.example.distributed_system.entities.UnavailabilityFlag;
 import com.example.distributed_system.entities.enums.LeaveStatus;
 import com.example.distributed_system.entities.enums.UnavailabilityFlagStatus;
 import com.example.distributed_system.entities.enums.UnavailabilityStatus;
+import com.example.distributed_system.repositories.LeaveRequestRepository;
 import com.example.distributed_system.services.UnavailabilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +15,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/unavailability")
 @RequiredArgsConstructor
 public class UnavailabilityController {
 
     private final UnavailabilityService unavailabilityService;
-
+    private final LeaveRequestRepository leaveRequestRepository;
     @GetMapping("/status")
     public UnavailabilityStatus getStatus(
             @RequestParam UUID staffId,
@@ -45,5 +47,10 @@ public class UnavailabilityController {
     public List<Absence> getAbsencesByDate(
             @RequestParam LocalDate date) {
         return unavailabilityService.getAbsenceByDate(date);
+    }
+
+    @GetMapping("/leave/all")
+    public List<LeaveRequest> getAllLeaveRequests() {
+        return leaveRequestRepository.findAll();
     }
 }

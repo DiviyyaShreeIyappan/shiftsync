@@ -6,7 +6,7 @@ import ScheduleMaker from '../ScheduleMaker/ScheduleMaker';
 import ConflictsTab from '../ScheduleMaker/ConflictsTab';
 
 export default function StepperTabs(){
-    const [activeTab,setActiveTab] =useState('schedule');
+    const [activeTab,setActiveTab] =useState('Schedule');
     const tabs=['Schedule','Conflicts','Review','Post']
     return(
         <div className={styles.wrapper}>

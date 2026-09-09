@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/staff")
 @RequiredArgsConstructor
@@ -47,6 +49,10 @@ public class StaffController {
     @GetMapping("/contract/{contractType}")
     public List<Staff> getStaffByContractType(@PathVariable ContractType contractType) {
         return staffService.getStaffByContractType(contractType);
+    }
+    @GetMapping("/by-department")
+    public Map<String, List<Staff>> getStaffByDepartment() {
+        return staffService.getStaffGroupedByDepartment();
     }
     @PostMapping
     public ResponseEntity<Staff> createStaff(@RequestBody Staff staff){
